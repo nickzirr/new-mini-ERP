@@ -40,12 +40,12 @@ Este projeto é construído com dedicação por uma equipe talentosa e multifunc
 
 ### 💻 Equipe de Desenvolvimento e Criação
 
-- **Nicolas Ubaldo Moreira** – Desenvolvedor Backend  
-- **Nathan Lemos** – Desenvolvedor Frontend  
-- **Felipe Luiz** – Desenvolvedor Full Stack  
-- **Emily** – Designer de Interface / UX  
-- **Matheus Barbosa** – Especialista em Produção e Estamparia  
-- **Matheus Colaço** – Analista de Qualidade e Testes  
+- **Nicolas Ubaldo Moreira**
+- **Nathan Lemos** 
+- **Felipe Luiz** 
+- **Emily** 
+- **Matheus Barbosa** 
+- **Matheus Colaço** 
 
 
 ---
