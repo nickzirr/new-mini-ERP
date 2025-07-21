@@ -87,7 +87,7 @@ criar_tabela_usuarios()
 
 root = tk.Tk()
 root.title("Login - Loja de Roupas")
-root.geometry("400x350")
+root.geometry("800x750")
 root.configure(bg="#f4f4f4")
 
 # === TELA DE LOGIN ===
