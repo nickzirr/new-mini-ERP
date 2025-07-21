@@ -42,11 +42,9 @@ def mostrar_tela_usuario(nome_usuario):
         produtos = cursor.fetchall()
         conn.close()
 
-        # Limpa a tabela
         for item in tree.get_children():
             tree.delete(item)
         
-        # Preenche com dados
         for produto in produtos:
             tree.insert("", "end", values=produto)
 
@@ -58,16 +56,16 @@ def mostrar_tela_usuario(nome_usuario):
     root = tk.Tk()
     root.title(f"Bem-vindo, {nome_usuario}")
     root.geometry("1920x1080")
-    root.configure(bg="#f0f0f0")
+    root.configure(bg="#2e2e2e")
 
     # Título
-    tk.Label(root, text="Produtos da Loja", font=("Arial", 24, "bold"), bg="#f0f0f0").pack(pady=20)
+    tk.Label(root, text="Produtos da Loja", font=("Arial", 24, "bold"), bg="#2e2e2e", fg="#cccccc").pack(pady=20)
 
     # Filtro de categoria
-    frame_filtro = tk.Frame(root, bg="#f0f0f0")
+    frame_filtro = tk.Frame(root, bg="#2e2e2e")
     frame_filtro.pack(pady=10)
 
-    tk.Label(frame_filtro, text="Filtrar por categoria:", font=("Arial", 12), bg="#f0f0f0").grid(row=0, column=0, padx=10)
+    tk.Label(frame_filtro, text="Filtrar por categoria:", font=("Arial", 12), bg="#2e2e2e", fg="#cccccc").grid(row=0, column=0, padx=10)
 
     combo_categoria = ttk.Combobox(frame_filtro, values=carregar_categorias(), state="readonly", width=30, font=("Arial", 11))
     combo_categoria.grid(row=0, column=1, padx=10)
@@ -76,7 +74,7 @@ def mostrar_tela_usuario(nome_usuario):
     ttk.Button(frame_filtro, text="Filtrar", command=filtrar).grid(row=0, column=2, padx=10)
 
     # Tabela
-    frame_tabela = tk.Frame(root)
+    frame_tabela = tk.Frame(root, bg="#2e2e2e")
     frame_tabela.pack(padx=20, pady=20, fill="both", expand=True)
 
     colunas = ("Nome", "Descrição", "Preço (R$)", "Categoria", "Estoque")
@@ -89,8 +87,16 @@ def mostrar_tela_usuario(nome_usuario):
     # Estilo visual
     style = ttk.Style()
     style.theme_use("clam")
-    style.configure("Treeview", font=("Arial", 12), rowheight=30)
-    style.configure("Treeview.Heading", font=("Arial", 12, "bold"))
+    style.configure("Treeview",
+                    font=("Arial", 12),
+                    rowheight=30,
+                    background="#3a3a3a",
+                    foreground="#cccccc",
+                    fieldbackground="#3a3a3a")
+    style.configure("Treeview.Heading",
+                    font=("Arial", 12, "bold"),
+                    background="#444444",
+                    foreground="#cccccc")
 
     # Scrollbar
     scrollbar = ttk.Scrollbar(frame_tabela, orient="vertical", command=tree.yview)
