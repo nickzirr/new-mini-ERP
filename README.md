@@ -1,6 +1,6 @@
 # 👕 Loja de Roupas - TagStyle
 
-Bem-vindo ao repositório oficial da **Loja de Roupas - Estilo Único**, onde combinamos **moda**, **criatividade** e **tecnologia** para oferecer os melhores produtos e uma experiência única aos nossos clientes.
+Bem-vindo ao repositório oficial da **Loja de Roupas - TagStyle**, onde combinamos **moda**, **criatividade** e **tecnologia** para oferecer os melhores produtos e uma experiência única aos nossos clientes.
 
 ---
 
