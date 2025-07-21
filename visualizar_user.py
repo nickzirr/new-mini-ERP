@@ -21,16 +21,20 @@ def mostrar_tela_usuario(nome_usuario):
 
         if categoria_selecionada == "Todas":
             cursor.execute('''
-                SELECT p.nome, p.descricao, p.preco, c.nome
+                SELECT p.nome, p.descricao, p.preco, c.nome, 
+                       COALESCE(e.quantidade, 0)
                 FROM produtos p
                 LEFT JOIN categorias c ON p.id_categoria = c.id
+                LEFT JOIN estoque e ON p.id = e.id_produto
                 ORDER BY p.nome ASC
             ''')
         else:
             cursor.execute('''
-                SELECT p.nome, p.descricao, p.preco, c.nome
+                SELECT p.nome, p.descricao, p.preco, c.nome, 
+                       COALESCE(e.quantidade, 0)
                 FROM produtos p
                 LEFT JOIN categorias c ON p.id_categoria = c.id
+                LEFT JOIN estoque e ON p.id = e.id_produto
                 WHERE c.nome = ?
                 ORDER BY p.nome ASC
             ''', (categoria_selecionada,))
@@ -38,11 +42,11 @@ def mostrar_tela_usuario(nome_usuario):
         produtos = cursor.fetchall()
         conn.close()
 
-        # Limpar tabela
+        # Limpa a tabela
         for item in tree.get_children():
             tree.delete(item)
         
-        # Preencher tabela
+        # Preenche com dados
         for produto in produtos:
             tree.insert("", "end", values=produto)
 
@@ -54,44 +58,47 @@ def mostrar_tela_usuario(nome_usuario):
     root = tk.Tk()
     root.title(f"Bem-vindo, {nome_usuario}")
     root.geometry("1920x1080")
-    root.configure(bg="#f9f9f9")
+    root.configure(bg="#f0f0f0")
 
-    tk.Label(root, text=f"Produtos Disponíveis", font=("Arial", 16, "bold"), bg="#f9f9f9").pack(pady=10)
+    # Título
+    tk.Label(root, text="Produtos da Loja", font=("Arial", 24, "bold"), bg="#f0f0f0").pack(pady=20)
 
     # Filtro de categoria
-    frame_filtro = tk.Frame(root, bg="#f9f9f9")
-    frame_filtro.pack(pady=5)
+    frame_filtro = tk.Frame(root, bg="#f0f0f0")
+    frame_filtro.pack(pady=10)
 
-    tk.Label(frame_filtro, text="Filtrar por categoria:", bg="#f9f9f9").grid(row=0, column=0, padx=5)
+    tk.Label(frame_filtro, text="Filtrar por categoria:", font=("Arial", 12), bg="#f0f0f0").grid(row=0, column=0, padx=10)
 
-    combo_categoria = ttk.Combobox(frame_filtro, values=carregar_categorias(), state="readonly", width=30)
-    combo_categoria.grid(row=0, column=1, padx=5)
+    combo_categoria = ttk.Combobox(frame_filtro, values=carregar_categorias(), state="readonly", width=30, font=("Arial", 11))
+    combo_categoria.grid(row=0, column=1, padx=10)
     combo_categoria.set("Todas")
 
-    ttk.Button(frame_filtro, text="Filtrar", command=filtrar).grid(row=0, column=2, padx=5)
+    ttk.Button(frame_filtro, text="Filtrar", command=filtrar).grid(row=0, column=2, padx=10)
 
-    # Tabela de produtos
-    frame_tabela = tk.Frame(root, bg="#f9f9f9")
-    frame_tabela.pack(pady=10, fill="both", expand=True)
+    # Tabela
+    frame_tabela = tk.Frame(root)
+    frame_tabela.pack(padx=20, pady=20, fill="both", expand=True)
 
-    style = ttk.Style()
-    style.theme_use("clam")
-    style.configure("Treeview.Heading", font=("Arial", 10, "bold"), background="#e8e8e8")
-    style.configure("Treeview", font=("Arial", 10), rowheight=28)
-
-    colunas = ("Nome", "Descrição", "Preço (R$)", "Categoria")
-    tree = ttk.Treeview(frame_tabela, columns=colunas, show="headings")
+    colunas = ("Nome", "Descrição", "Preço (R$)", "Categoria", "Estoque")
+    tree = ttk.Treeview(frame_tabela, columns=colunas, show="headings", height=30)
 
     for col in colunas:
         tree.heading(col, text=col)
-        tree.column(col, anchor="center")
+        tree.column(col, anchor="center", width=200)
 
+    # Estilo visual
+    style = ttk.Style()
+    style.theme_use("clam")
+    style.configure("Treeview", font=("Arial", 12), rowheight=30)
+    style.configure("Treeview.Heading", font=("Arial", 12, "bold"))
+
+    # Scrollbar
     scrollbar = ttk.Scrollbar(frame_tabela, orient="vertical", command=tree.yview)
-    tree.configure(yscroll=scrollbar.set)
+    tree.configure(yscrollcommand=scrollbar.set)
     scrollbar.pack(side="right", fill="y")
+
     tree.pack(fill="both", expand=True)
 
-    # Carrega produtos ao iniciar
-    carregar_produtos()
+    carregar_produtos()  # carrega tudo inicialmente
 
     root.mainloop()
