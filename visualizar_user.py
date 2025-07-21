@@ -53,7 +53,7 @@ def mostrar_tela_usuario(nome_usuario):
     # === Interface Tkinter ===
     root = tk.Tk()
     root.title(f"Bem-vindo, {nome_usuario}")
-    root.geometry("750x450")
+    root.geometry("1920x1080")
     root.configure(bg="#f9f9f9")
 
     tk.Label(root, text=f"Produtos Disponíveis", font=("Arial", 16, "bold"), bg="#f9f9f9").pack(pady=10)
